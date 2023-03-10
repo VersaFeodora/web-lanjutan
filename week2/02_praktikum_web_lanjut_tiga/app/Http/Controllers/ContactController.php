@@ -13,7 +13,7 @@ class ContactController extends Controller
      */
     public function index()
     {
-        //
+        return view('welcome');
     }
 
     /**
@@ -34,7 +34,8 @@ class ContactController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $email = $request->email;
+        return redirect()->back()->with('alert', $email.', Data Has been Posted!');
     }
 
     /**
