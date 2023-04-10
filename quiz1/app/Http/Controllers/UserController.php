@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\Roles;
 use Session;
 
 class UserController extends Controller
@@ -43,10 +44,28 @@ class UserController extends Controller
 
     public function logout()
     {
-        Auth::logout();
-        return redirect('/');
+        session_unset();
+        return redirect(Route('login'));
     }
     public function register(){
-        return view('content.authentications.auth-register-basic');
+        $roles = Roles::get();
+        return view('content.authentications.auth-register-basic')->with('roles', $roles);
+    }
+    public function actionregister(Request $request)
+    {
+        $user = User::create([
+            'username' => $request->username,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'phonenumber' => $request->phonenumber,
+            'address' => $request->address,
+            'roles_id' => $request->roles,
+            'password' => $request->password
+        ]);
+        $user->save();
+        $request->session()->put('user', $user);
+        Session::flash('message', 'Registration successful');
+        return redirect(Route('dashboard-analytics'))->with('user', $user);
     }
 }

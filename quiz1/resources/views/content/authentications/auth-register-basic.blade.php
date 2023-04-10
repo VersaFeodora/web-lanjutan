@@ -9,63 +9,78 @@
 
 
 @section('content')
-<div class="container-xxl">
-  <div class="authentication-wrapper authentication-basic container-p-y">
-    <div class="authentication-inner">
-
-      <!-- Register Card -->
-      <div class="card">
-        <div class="card-body">
-          <!-- Logo -->
-          <div class="app-brand justify-content-center">
-            <h3>AGRO</h3>
-          </div>
-          <!-- /Logo -->
-          <h4 class="mb-2">Welcome to AGRO</h4>
-          <p class="mb-4">Manage your agribusiness here</p>
-
-          <form id="formAuthentication" class="mb-3" action="{{url('/')}}" method="GET">
+<div class="container m-5 d-flex justify-content-center">
+<div class="row p-5">
+  <div class="col-md-12">
+    <div class="card mb-4 p-5">
+      <h1 class="text-center">AGRO</h1>
+      <h3 class="text-center card-header">Sign up Before Continue</h3>
+      <!-- Account -->
+      
+      <div class="card-body">
+        <form id="formAccountSettings" method="POST" action="{{ route('action-register') }}">
+          @csrf
+          <div class="row">
             <div class="mb-3">
               <label for="username" class="form-label">Username</label>
-              <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" autofocus>
+              <input class="form-control" type="text" id="username" name="username" value="" autofocus />
             </div>
-            <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email">
+            <div class="mb-3 col-md-6">
+              <label for="first_name" class="form-label">First Name</label>
+              <input class="form-control" type="text" id="first_name" name="first_name" value="" autofocus />
             </div>
-            <div class="mb-3 form-password-toggle">
-              <label class="form-label" for="password">Password</label>
+            <div class="mb-3 col-md-6">
+              <label for="last_name" class="form-label">Last Name</label>
+              <input class="form-control" type="text" name="last_name" id="last_name" value="" />
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="email" class="form-label">E-mail</label>
+              <input class="form-control" type="text" id="email" name="email" value="" placeholder="john.doe@example.com" />
+            </div>
+            <div class="mb-3 col-md-6">
+              <label for="role" class="form-label">Role</label>
+              <input class="form-control" type="text" id="role" name="roles" value="" placeholder="1-Supplier, 2-Customer" />
+            </div>
+            <div class="mb-3 col-md-6">
+              <label class="form-label" for="phonenumber">Phone Number</label>
               <div class="input-group input-group-merge">
-                <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="password" />
-                <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                <span class="input-group-text">ID (+62)</span>
+                <input type="text" id="phoneNumber" name="phonenumber" class="form-control" placeholder="811 123 456 78" value=""/>
               </div>
             </div>
-
+            <div class="mb-3 col-md-6">
+              <div class="form-password-toggle">
+                <label class="form-label" for="basic-default-password12">Password</label>
+                <div class="input-group">
+                  <input type="password" class="form-control" id="basic-default-password12" name="password" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="basic-default-password2"/>
+                  <span id="basic-default-password2" class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                </div>
+              </div>
+            </div>
             <div class="mb-3">
-              <div class="form-check">
-                <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms">
-                <label class="form-check-label" for="terms-conditions">
-                  I agree to
-                  <a href="javascript:void(0);">privacy policy & terms</a>
-                </label>
-              </div>
+              <label for="address" class="form-label">Address</label>
+              <input type="text" class="form-control" id="address" name="address" placeholder="Address"/>
             </div>
-            <button class="btn btn-primary d-grid w-100">
-              Sign up
-            </button>
-          </form>
-
-          <p class="text-center">
+          </div>
+          <div class="mt-2">
+            <button type="submit" class="btn btn-primary me-2">Register</button>
+          </div>
+        </form>
+      </div>
+      <!-- /Account -->
+    </div>
+    <div>
+      <p class="text-center">
             <span>Already have an account?</span>
             <a href="{{route('login')}}">
               <span>Sign in instead</span>
             </a>
           </p>
-        </div>
-      </div>
     </div>
-    <!-- Register Card -->
   </div>
+</div>
+  </div>
+</div>
 </div>
 </div>
 @endsection

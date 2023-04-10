@@ -22,7 +22,11 @@ class ProductController extends Controller
             $output = 'Product List';
             $user = $request->session()->get('user');
             $role = Roles::where('id', $user->roles_id)->first();
-            $products = Products::where('seller_id', $user->id)->get();
+            if($role->id == 1){
+                $products = Products::where('seller_id', $user->id)->get();
+            }else{
+                $products = Products::get();
+            }
             return view('content.products.product-list', array(
                 'content' => $output,
                 'products' => $products,
@@ -55,7 +59,12 @@ class ProductController extends Controller
         $output = 'Product List';
         $user = $request->session()->get('user');
         $role = Roles::where('id', $user->roles_id)->first();
-        $products = Products::where([['product_name','LIKE' ,"%".$keyword."%"],['seller_id', $user->id]])->get();
+        
+        if($role->id == 1){
+            $products = Products::where([['product_name','LIKE' ,"%".$keyword."%"],['seller_id', $user->id]])->get();
+        }else{
+            $products = Products::where('product_name','LIKE' ,"%".$keyword."%")->get();
+        }
         return view('content.products.product-list', array(
             'content' => $output,
             'products' => $products,
@@ -70,9 +79,16 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function editPage(Request $request, $id)
     {
-        //
+        $product = Products::where('id', $id)->first();
+        $user = $request->session()->get('user');
+        $role = Roles::where('id', $user->roles_id)->first();
+        return view('content.products.product-edit', array(
+            'product' => $product,
+            'user' => $user,
+            'role' => $role
+        ));
     }
 
     /**
@@ -81,9 +97,16 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function addPage(Request $request)
     {
-        //
+        $product = null;
+        $user = $request->session()->get('user');
+        $role = Roles::where('id', $user->roles_id)->first();
+        return view('content.products.product-add', array(
+            'product' => $product,
+            'user' => $user,
+            'role' => $role
+        ));
     }
 
     /**
@@ -107,5 +130,25 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function filter($cat, Request $request){
+        if($request->session()->missing('user')){
+            return redirect(Route('login'));
+        }else{
+            $output = 'Product List';
+            $user = $request->session()->get('user');
+            $role = Roles::where('id', $user->roles_id)->first();
+            if($role->id == 1){
+                $products = Products::where([['seller_id', $user->id],['category_id', $cat]])->get();
+            }else{
+                $products = Products::where('category_id', $cat);
+            }
+            return view('content.products.product-list', array(
+                'content' => $output,
+                'products' => $products,
+                'user' => $user,
+                'role' => $role
+            ));
+        }
     }
 }

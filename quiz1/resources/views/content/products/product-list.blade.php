@@ -23,15 +23,17 @@
     </form>
 </div>
 <div class="row my-3 d-flex justify-content-around">
-    <button type="button" class="col-md-2 m-3 btn rounded-pill btn-secondary">Fruits</button>
-    <button type="button" class="col-md-2 m-3 btn rounded-pill btn-secondary">Vegetables</button>
-    <button type="button" class="col-md-2 m-3 btn rounded-pill btn-secondary">Spices</button>
-    <button type="button" class="col-md-2 m-3 btn rounded-pill btn-secondary">Others</button>
+    <button type="button" class="col-md-2 m-3 btn rounded-pill btn-secondary" ><a href="/products/category/1" style="color: white;">Fruits</a></button>
+    <button type="button" class="col-md-2 m-3 btn rounded-pill btn-secondary"><a href="/products/category/2" style="color: white;">Vegetables</a></button>
+    <button type="button" class="col-md-2 m-3 btn rounded-pill btn-secondary"><a href="/products/category/3" style="color: white;">Spices</a></button>
+    <button type="button" class="col-md-2 m-3 btn rounded-pill btn-secondary"><a href="/products/category/4" style="color: white;">Others</a></button>
 </div>
 <div class="row my-3">
-    <div class="col-md-7 d-flex justify-content-start">
-        <button type="button" class="d-flex justify-content-start btn btn-primary" href="{{route('add-products')}}">Add Product</button>
-    </div>
+    @if ($user->roles_id == 1)
+        <div class="col-md-7 d-flex justify-content-start">
+            <a href="{{route('add-products')}}"><button type="button" class="d-flex justify-content-start btn btn-primary">Add Product</button></a>
+        </div>
+    @endif
     <div class="col-md-1 d-flex justify-content-end align-self-center">
         <label for="sortby" class="form-label">Sort by</label>
     </div>
@@ -57,8 +59,12 @@
                 <p class="card-text">
                     {{$product->description}}
                 </p>
-                <a href="javascript:void(0)" class="btn btn-outline-primary">Edit</a>
-                <a href="javascript:void(0)" class="btn btn-outline-danger"><i class='bx bx-trash'></i></a>
+                @if ($user->roles_id == 1)
+                    <a href="/products/edit/{{$product->id}}" class="btn btn-outline-primary">Edit</a>
+                    <a href="javascript:void(0)" class="btn btn-outline-danger"><i class='bx bx-trash'></i></a>
+                @else
+                    <a href="javascript:void(0)" class="btn btn-outline-primary">Add to Cart</a>
+                @endif
             </div>
             </div>
         </div>

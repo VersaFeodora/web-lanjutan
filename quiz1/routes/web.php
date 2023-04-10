@@ -82,9 +82,13 @@ Route::get('/tables/basic', $controller_path . '\tables\Basic@index')->name('tab
 
 // products
 Route::get('/products', $controller_path . '\ProductController@index')->name('products');
+Route::get('/products/category/{cat}', $controller_path . '\ProductController@filter')->name('products-category');
 Route::post('/products', $controller_path . '\ProductController@search')->name('search-products');
-Route::get('/products/add', $controller_path . '\ProductController@add')->name('add-products');
+Route::get('/products/add', $controller_path . '\ProductController@addPage')->name('add-products');
+Route::get('/products/edit/{id}', $controller_path . '\ProductController@editPage')->name('edit-product');
 
 Route::get('/login', $controller_path . '\UserController@index')->name('login');
 Route::post('actionlogin', $controller_path . '\UserController@actionlogin')->name('action-login');
 Route::get('/register', $controller_path . '\UserController@register')->name('register');
+Route::post('actionregister', $controller_path . '\UserController@actionregister')->name('action-register');
+Route::get('logout', $controller_path . '\UserController@logout')->name('logout');

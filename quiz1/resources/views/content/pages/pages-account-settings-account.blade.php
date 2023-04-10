@@ -17,54 +17,59 @@
       
       <div class="card-body">
         <form id="formAccountSettings" method="POST" onsubmit="return false">
+          @csrf
           <div class="row">
             <div class="mb-3">
               <label for="username" class="form-label">Username</label>
-              <input class="form-control" type="text" id="username" name="username" value="JohnDoe420" autofocus />
+              <input class="form-control" type="text" id="username" name="username" value="{{$user->username}}" autofocus />
             </div>
             <div class="mb-3 col-md-6">
               <label for="firstName" class="form-label">First Name</label>
-              <input class="form-control" type="text" id="firstName" name="firstName" value="John" autofocus />
+              <input class="form-control" type="text" id="firstName" name="firstName" value="{{$user->first_name}}" autofocus />
             </div>
             <div class="mb-3 col-md-6">
               <label for="lastName" class="form-label">Last Name</label>
-              <input class="form-control" type="text" name="lastName" id="lastName" value="Doe" />
+              <input class="form-control" type="text" name="lastName" id="lastName" value="{{$user->last_name}}" />
             </div>
             <div class="mb-3 col-md-6">
               <label for="email" class="form-label">E-mail</label>
-              <input class="form-control" type="text" id="email" name="email" value="john.doe@example.com" placeholder="john.doe@example.com" />
+              <input class="form-control" type="text" id="email" name="email" value="{{$user->email}}" placeholder="john.doe@example.com" />
             </div>
             <div class="mb-3 col-md-6">
               <label for="role" class="form-label">Role</label>
               <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
-                <option selected value="1">Customer</option>
-                <option value="2">Seller</option>
+                @if ($user->roles_id == 1)
+                  <option selected value="1">Supplier</option>
+                  <option value="2">Customer</option>
+                @else
+                  <option value="1">Supplier</option>
+                  <option selected value="2">Customer</option>
+                @endif
               </select>
             </div>
             <div class="mb-3 col-md-6">
               <label class="form-label" for="phoneNumber">Phone Number</label>
               <div class="input-group input-group-merge">
                 <span class="input-group-text">ID (+62)</span>
-                <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="811 123 456 78" />
+                <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="811 123 456 78" value="{{$user->phonenumber}}"/>
               </div>
             </div>
             <div class="mb-3 col-md-6">
               <div class="form-password-toggle">
                 <label class="form-label" for="basic-default-password12">Password</label>
                 <div class="input-group">
-                  <input type="password" class="form-control" id="basic-default-password12" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="basic-default-password2" />
+                  <input type="password" class="form-control" id="basic-default-password12" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="basic-default-password2" value="{{$user->password}}"/>
                   <span id="basic-default-password2" class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                 </div>
               </div>
             </div>
             <div class="mb-3">
               <label for="address" class="form-label">Address</label>
-              <input type="text" class="form-control" id="address" name="address" placeholder="Address" />
+              <input type="text" class="form-control" id="address" name="address" placeholder="Address" value="{{$user->address}}"/>
             </div>
           </div>
           <div class="mt-2">
             <button type="submit" class="btn btn-primary me-2">Save changes</button>
-            <button type="reset" class="btn btn-outline-secondary">Cancel</button>
           </div>
         </form>
       </div>
@@ -79,13 +84,9 @@
             <p class="mb-0">Once you delete your account, there is no going back. Please be certain.</p>
           </div>
         </div>
-        <form id="formAccountDeactivation" onsubmit="return false">
-          <div class="form-check mb-3">
-            <input class="form-check-input" type="checkbox" name="accountActivation" id="accountActivation" />
-            <label class="form-check-label" for="accountActivation">I confirm my account deactivation</label>
-          </div>
-          <button type="submit" class="btn btn-danger deactivate-account">Deactivate Account</button>
-        </form>
+        <div>
+          <button class="btn btn-danger deactivate-account"><a style="color:white;" href="/account/deactivate/{{$user->id}}">Deactivate Account</a></button>
+        </div>
       </div>
     </div>
   </div>

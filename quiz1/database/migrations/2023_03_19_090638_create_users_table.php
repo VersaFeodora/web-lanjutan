@@ -21,9 +21,8 @@ return new class extends Migration
             $table->string('email',100)->unique();
             $table->string('phonenumber',20);
             $table->string('address',500);
-            $table->foreignId('roles_id')->constrained();
-            $table->string('password');
-            $table->timestamps();
+            $table->foreignId('roles_id',2)->constrained();
+            $table->string('password',20);
         });
     }
 
