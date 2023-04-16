@@ -84,7 +84,7 @@
           </div>
         </div>
         <div>
-          <button class="btn btn-danger deactivate-account"><a style="color:white;" href="/account/deactivate/{{$user->id}}">Deactivate Account</a></button>
+          <button class="btn btn-danger deactivate-account"><a style="color:white;" href="{{route('del-acc')}}">Deactivate Account</a></button>
         </div>
       </div>
     </div>

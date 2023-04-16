@@ -22,6 +22,7 @@ Route::get('/', $controller_path . '\dashboard\Analytics@index')->name('dashboar
 // pages
 Route::get('/account', $controller_path . '\pages\AccountSettingsAccount@index')->name('account');
 Route::post('/account', $controller_path . '\pages\AccountSettingsAccount@actionupdate')->name('update-acc');
+Route::get('/account/deactivate', $controller_path . '\pages\AccountSettingsAccount@deactivate')->name('del-acc');
 
 // authentication
 Route::get('/auth/login-basic', $controller_path . '\authentications\LoginBasic@index')->name('auth-login-basic');

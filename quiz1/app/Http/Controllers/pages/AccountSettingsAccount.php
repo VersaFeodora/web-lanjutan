@@ -22,7 +22,7 @@ class AccountSettingsAccount extends Controller
     {
         $user = $request->session()->get('user');
         $role = Roles::where('id', $user->roles_id)->first();
-        $user = User::where('id', $user->id)->update([
+        $user->update([
             'username' => $request->username,
             'first_name' => $request->firstName,
             'last_name' => $request->lastName,
@@ -36,5 +36,12 @@ class AccountSettingsAccount extends Controller
           'user' => $user,
           'role' => $role
           ));
+    }
+    public function deactivate(Request $request)
+    {
+        $user = $request->session()->get('user');
+        $user->delete();
+        $request->session()->forget('user');
+        return redirect()->route('login');
     }
 }
