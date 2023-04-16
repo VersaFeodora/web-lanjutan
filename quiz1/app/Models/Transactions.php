@@ -10,6 +10,7 @@ class Transactions extends Model
     use HasFactory;
     protected $table = 'transactions';
     protected $primaryKey = ['id'];
+    public $timestamp = false;
     protected $fillable = [
         'buyer_id',
         'transaction_date',

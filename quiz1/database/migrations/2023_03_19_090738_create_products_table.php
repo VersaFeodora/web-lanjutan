@@ -22,7 +22,6 @@ return new class extends Migration
             $table->integer('product_stock');
             $table->integer('price');
             $table->string('description',500);
-            $table->timestamps();
         });
     }
 

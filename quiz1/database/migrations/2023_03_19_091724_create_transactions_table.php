@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('buyer_id')->constrained();
             $table->date('transaction_date');
             $table->string('status');
-            $table->timestamps();
         });
     }
 

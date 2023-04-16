@@ -10,6 +10,7 @@ class TransactionDetails extends Model
     use HasFactory;
     protected $table = 'transactiondetails';
     protected $primaryKey = ['id'];
+    public $timestamp = false;
     protected $fillable = [
         'transaction_id',
         'product_id',

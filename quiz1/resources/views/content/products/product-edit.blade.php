@@ -16,7 +16,6 @@
 
 @section('content')
 <div class="row">
-    @csrf
     <div class="col-md-4">
         <div class="mb-3">
           <div class="card h-100">
@@ -26,18 +25,19 @@
     </div>
     <div class="card col-md-8">
       <div class="card-body">
-        <form>
+        <form method='POST' action="{{route('actionedit-products', $product->id)}}">
+        @csrf
           <div class="mb-3">
             <label class="form-label" for="basic-default-name">Product Name</label>
-            <input type="text" class="form-control" id="basic-default-name" value="{{$product->product_name}}"/>
+            <input name="product_name" type="text" class="form-control" id="basic-default-name" value="{{$product->product_name}}"/>
           </div>
           <div class="mb-3">
             <label class="form-label" for="basic-default-company">File Path</label>
-            <input type="text" class="form-control" id="basic-default-filepath" value="{{$product->file_path}}"/>
+            <input name="file_path" type="text" class="form-control" id="basic-default-filepath" value="{{$product->file_path}}"/>
           </div>
           <div class="mb-3">
             <label class="form-label" for="basic-default-category">Category</label>
-            <select class="form-select" id="exampleFormControlSelectCategory" aria-label="Default select example">
+            <select name="category_id" class="form-select" id="exampleFormControlSelectCategory" aria-label="Default select example">
               @if($product->category_id == 1)
                   <option selected value="1">Fruits</option>
                   <option value="2">Vegetables</option>
@@ -63,15 +63,15 @@
           </div>
           <div class="mb-3">
             <label class="form-label" for="basic-default-stock">Stock</label>
-            <input type="number" id="basic-default-stock" class="form-control phone-mask" value="{{$product->product_stock}}"/>
+            <input name="product_stock" type="number" id="basic-default-stock" class="form-control phone-mask" value="{{$product->product_stock}}"/>
           </div>
           <div class="mb-3">
             <label class="form-label" for="basic-default-price">Price</label>
-            <input type="number" id="basic-default-price" class="form-control phone-mask" value="{{$product->price}}"/>
+            <input name="price" type="number" id="basic-default-price" class="form-control phone-mask" value="{{$product->price}}"/>
           </div>
           <div class="mb-3">
             <label class="form-label" for="basic-default-desc">Description</label>
-            <input type="text" id="basic-default-desc" class="form-control" value="{{$product->description}}"></input>
+            <input name="description" type="text" id="basic-default-desc" class="form-control" value="{{$product->description}}"></input>
           </div>
           <button type="submit" class="btn btn-primary">Update</button>
         </form>

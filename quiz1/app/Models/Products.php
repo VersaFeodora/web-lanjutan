@@ -11,6 +11,7 @@ class Products extends Model
     protected $table = 'products';
     protected $primaryKey = ['id'];
     public $incrementing = false;
+    public $timestamp = false;
     protected $fillable = [
         'category_id',
         'seller_id',

@@ -14,9 +14,8 @@
     <div class="card mb-4">
       <h5 class="card-header">Profile Details</h5>
       <!-- Account -->
-      
       <div class="card-body">
-        <form id="formAccountSettings" method="POST" onsubmit="return false">
+        <form id="formAccountSettings" method="POST" action="{{route('update-acc')}}">
           @csrf
           <div class="row">
             <div class="mb-3">
@@ -37,7 +36,7 @@
             </div>
             <div class="mb-3 col-md-6">
               <label for="role" class="form-label">Role</label>
-              <select class="form-select" id="exampleFormControlSelect1" aria-label="Default select example">
+              <select class="form-select" id="exampleFormControlSelect1" name="roles" aria-label="Default select example">
                 @if ($user->roles_id == 1)
                   <option selected value="1">Supplier</option>
                   <option value="2">Customer</option>
@@ -58,7 +57,7 @@
               <div class="form-password-toggle">
                 <label class="form-label" for="basic-default-password12">Password</label>
                 <div class="input-group">
-                  <input type="password" class="form-control" id="basic-default-password12" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="basic-default-password2" value="{{$user->password}}"/>
+                  <input name="password" type="password" class="form-control" id="basic-default-password12" placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;" aria-describedby="basic-default-password2" value="{{$user->password}}"/>
                   <span id="basic-default-password2" class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                 </div>
               </div>

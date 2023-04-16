@@ -16,22 +16,22 @@
 
 @section('content')
 <div class="row">
-    @csrf
     <div class="">
     <div class="card">
       <div class="card-body">
-        <form>
+        <form method="POST" action="{{route('actionadd-products')}}">
+          @csrf
           <div class="mb-3">
             <label class="form-label" for="basic-default-name">Product Name</label>
-            <input type="text" class="form-control" id="basic-default-name"/>
+            <input type="text" name="product_name" class="form-control" id="basic-default-name"/>
           </div>
           <div class="mb-3">
             <label class="form-label" for="basic-default-company">File Path</label>
-            <input type="text" class="form-control" id="basic-default-filepath"/>
+            <input type="text" name="file_path" class="form-control" id="basic-default-filepath"/>
           </div>
           <div class="mb-3">
             <label class="form-label" for="basic-default-category">Category</label>
-            <select class="form-select" id="exampleFormControlSelectCategory" aria-label="Default select example">
+            <select name="category_id" class="form-select" id="exampleFormControlSelectCategory" aria-label="Default select example">
                   <option selected value="1">Fruits</option>
                   <option value="2">Vegetables</option>
                   <option value="3">Spices</option>
@@ -40,15 +40,15 @@
           </div>
           <div class="mb-3">
             <label class="form-label" for="basic-default-stock">Stock</label>
-            <input type="number" id="basic-default-stock" class="form-control phone-mask"/>
+            <input name="product_stock" type="number" id="basic-default-stock" class="form-control phone-mask"/>
           </div>
           <div class="mb-3">
             <label class="form-label" for="basic-default-price">Price</label>
-            <input type="number" id="basic-default-price" class="form-control phone-mask"/>
+            <input name="price" type="number" id="basic-default-price" class="form-control phone-mask"/>
           </div>
           <div class="mb-3">
             <label class="form-label" for="basic-default-desc">Description</label>
-            <textarea id="basic-default-desc" class="form-control"></textarea>
+            <textarea name="description" id="basic-default-desc" class="form-control"></textarea>
           </div>
           <button type="submit" class="btn btn-primary">Add</button>
         </form>

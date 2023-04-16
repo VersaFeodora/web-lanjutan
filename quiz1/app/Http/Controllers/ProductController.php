@@ -22,6 +22,7 @@ class ProductController extends Controller
             $output = 'Product List';
             $user = $request->session()->get('user');
             $role = Roles::where('id', $user->roles_id)->first();
+            $users = User::get();
             if($role->id == 1){
                 $products = Products::where('seller_id', $user->id)->get();
             }else{
@@ -31,7 +32,8 @@ class ProductController extends Controller
                 'content' => $output,
                 'products' => $products,
                 'user' => $user,
-                'role' => $role
+                'role' => $role,
+                'users' => $users,
             ));
         }
         
@@ -42,9 +44,28 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $user = $request->session()->get('user');
+        $product = Products::create([
+            'product_name' => $request->product_name,
+            'seller_id' => $user->id,
+            'file_path' => $request->file_path,
+            'category_id' => $request->category_id,
+            'product_stock' => $request->product_stock,
+            'price' => $request->price,
+            'description' => $request->description,
+        ]);
+        $product->save();
+        return redirect()->route('products');
+    }
+    
+
+    public function delete(Request $request, $id)
+    {
+        $product = Products::where('id', $id);
+        $product->delete();
+        return redirect()->route('products');
     }
 
     /**
@@ -116,11 +137,17 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
+    public function update(Request $request, $id){
+        Products::where('id', $id)->update([
+            'product_name' => $request->product_name,
+            'file_path' => $request->file_path,
+            'category_id' => $request->category_id,
+            'product_stock' => $request->product_stock,
+            'price' => $request->price,
+            'description' => $request->description,
+        ]);
+        return redirect()->route('products');
     }
-
     /**
      * Remove the specified resource from storage.
      *

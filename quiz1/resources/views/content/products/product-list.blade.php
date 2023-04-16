@@ -54,14 +54,21 @@
                 <h5 class="card-title">{{$product->product_name}}</h5>
                 <h7>{{$product->price}}</h7>
                 <p class="text-muted" style="font-size: 12pt;">
+                @if($user->roles_id == 1)
                 {{$user->username}}
+                @else
+                @php
+                $seller = $users->where('id', $product->seller_id)->first();
+                @endphp
+                {{$seller->username}}
+                @endif
                 </p>
                 <p class="card-text">
                     {{$product->description}}
                 </p>
                 @if ($user->roles_id == 1)
                     <a href="/products/edit/{{$product->id}}" class="btn btn-outline-primary">Edit</a>
-                    <a href="javascript:void(0)" class="btn btn-outline-danger"><i class='bx bx-trash'></i></a>
+                    <a href="{{route('delete-products', $product->id)}}" class="btn btn-outline-danger"><i class='bx bx-trash'></i></a>
                 @else
                     <a href="javascript:void(0)" class="btn btn-outline-primary">Add to Cart</a>
                 @endif
