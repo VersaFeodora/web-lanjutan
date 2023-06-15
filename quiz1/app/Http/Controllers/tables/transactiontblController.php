@@ -62,7 +62,7 @@ class transactiontblController extends Controller
     ));
   }
   public function detail(Request $request, $id){
-    $user = $request->session()->get('user');
+      $user = $request->session()->get('user');
       $users = User::get();
       $role = Roles::where('id', $user->roles_id)->first();
       $transactions = DB::table('transactiondetails')->where('id', $id)->first();
@@ -78,4 +78,65 @@ class transactiontblController extends Controller
         'tranc' => $tranc
     ));
   }
+  public function updateRate(Request $request, $id)
+    {
+      $user = $request->session()->get('user');
+      $rating = $request->rating;
+      $users = User::get();
+      $role = Roles::where('id', $user->roles_id)->first();
+      $transactions = DB::table('transactiondetails')->where('id', $id);
+      $transactions->update([
+          'rating' => $rating
+      ]);
+      $user = $request->session()->get('user');
+      $users = User::get();
+      $role = Roles::where('id', $user->roles_id)->first();
+      $transactions = DB::table('transactiondetails')->where('id', $id)->first();
+      $tranc = DB::table('transactions')->where('id', $transactions->transaction_id)->first();
+      $products = Products::where('id', $transactions->product_id)->first();
+      return view('content.tables.transaction-detail', array(
+        'products' => $products,
+        'user' => $user,
+        'role' => $role,
+        'users' => $users,
+        'products' => $products,
+        'transactions' => $transactions,
+        'tranc' => $tranc
+    ));
+    }
+    public function updateOnDelivery(Request $request, $id){
+      $user = $request->session()->get('user');
+      $status = 'On Delivery';
+      $users = User::get();
+      $role = Roles::where('id', $user->roles_id)->first();
+      $transID = DB::table('transactiondetails')->where('id', $id)->select('transaction_id')->get();
+      $transactions = DB::table('transactions')->where('id', $transID);
+      $transactions->update([
+          'status' => $status
+      ]);
+      $user = $request->session()->get('user');
+    $role = Roles::where('id', $user->roles_id)->first();
+    $users = User::get();
+    if($user->roles_id == 1){
+      $productsId = Products::where('seller_id', $user->id)->select('id')->get();
+      $products = Products::where('seller_id', $user->id)->get();
+      $transactions = DB::table('transactiondetails')
+        ->join('transactions', 'transactiondetails.transaction_id', '=', 'transactions.id')
+        ->whereIn('product_id', $productsId)->get();
+    }else{
+      $productsId = Products::select('id')->get();
+      $products = Products::get();
+      $transactions = DB::table('transactiondetails')
+        ->join('transactions', 'transactiondetails.transaction_id', '=', 'transactions.id')
+        ->where('buyer_id', $user->id)->get();
+    }
+    return view('content.tables.transaction-tbl', array(
+      'products' => $products,
+      'user' => $user,
+      'role' => $role,
+      'users' => $users,
+      'products' => $products,
+      'transactions' => $transactions
+  ));
+    }
 }

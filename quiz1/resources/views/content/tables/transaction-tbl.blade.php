@@ -75,7 +75,7 @@
               <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
               <div class="dropdown-menu">
                 <a class="dropdown-item" href="/order/download/{{$transaction->id}}"><i class="bx bx-edit-alt me-1"></i> Download PDF</a>
-                <a class="dropdown-item" href="/order/download/{{$transaction->id}}"><i class="bx bx-edit-alt me-1"></i> Detail</a>
+                <a class="dropdown-item" href="/order/detail/{{$transaction->id}}"><i class="bx bx-edit-alt me-1"></i> Detail</a>
                 @if ($user->roles_id == 1)
                   @if($transaction->status == 'new')
                     <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-edit-alt me-1"></i> Change to on delivery</a>

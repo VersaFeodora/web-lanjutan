@@ -31,7 +31,9 @@ Route::get('/auth/forgot-password-basic', $controller_path . '\authentications\F
 
 // tables
 Route::get('/order', $controller_path . '\tables\transactiontblController@index')->name('transaction-tbl');
-Route::get('/order/download/{id}', $controller_path . '\tables\transactiontblController@createPDF')->name('pdf-products');
+Route::get('/order/download/{id}', $controller_path . '\tables\transactiontblController@createPDF')->name('pdf-transaction');
+Route::get('/order/detail/{id}', $controller_path . '\tables\transactiontblController@detail')->name('detail-transaction');
+Route::post('/products/detail/{id}', $controller_path . '\tables\transactiontblController@updateRate')->name('update-rating');
 
 // products
 Route::get('/products', $controller_path . '\ProductController@index')->name('products');
