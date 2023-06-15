@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('buyer_id')->constrained();
-            $table->date('transaction_date');
+            $table->date('transaction_date')->nullable();;
             $table->string('status');
         });
     }

@@ -39,7 +39,10 @@
             </div>
             <div class="mb-3 col-md-6">
               <label for="role" class="form-label">Role</label>
-              <input class="form-control" type="text" id="role" name="roles" value="" placeholder="1-Supplier, 2-Customer" />
+              <select class="form-select" id="exampleFormControlSelect1" name="roles" aria-label="Default select example">
+                  <option selected value="1">Supplier</option>
+                  <option value="2">Customer</option>
+              </select>
             </div>
             <div class="mb-3 col-md-6">
               <label class="form-label" for="phonenumber">Phone Number</label>

@@ -11,10 +11,12 @@ class TransactionDetails extends Model
     protected $table = 'transactiondetails';
     protected $primaryKey = ['id'];
     public $timestamp = false;
+    public $incrementing = false;
     protected $fillable = [
         'transaction_id',
         'product_id',
-        'quantity'
+        'quantity',
+        'rating'
     ];
     public function transaction()
     {

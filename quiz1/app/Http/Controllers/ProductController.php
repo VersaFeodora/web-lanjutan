@@ -6,6 +6,12 @@ use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\User;
 use App\Models\Roles;
+use App\Models\TransactionDetails;
+use App\Models\Transactions;
+use Illuminate\Support\Facades\DB;
+Use \Carbon\Carbon;
+use PDF;
+use DateTime;
 
 class ProductController extends Controller
 {
@@ -33,7 +39,7 @@ class ProductController extends Controller
                 'products' => $products,
                 'user' => $user,
                 'role' => $role,
-                'users' => $users,
+                'users' => $users
             ));
         }
         
@@ -63,6 +69,7 @@ class ProductController extends Controller
 
     public function delete(Request $request, $id)
     {
+        TransactionDetails::where('product_id', $id)->delete();
         $product = Products::where('id', $id);
         $product->delete();
         return redirect()->route('products');
@@ -79,18 +86,33 @@ class ProductController extends Controller
         $keyword = $request->search;
         $output = 'Product List';
         $user = $request->session()->get('user');
+        $users = User::get();
         $role = Roles::where('id', $user->roles_id)->first();
-        
-        if($role->id == 1){
-            $products = Products::where([['product_name','LIKE' ,"%".$keyword."%"],['seller_id', $user->id]])->get();
+        $sortprice = $request->sortprice;
+        $sortrate = $request->sortrate;
+        if($user->roles_id == 1){
+            if($sortprice == 'asc'){
+                $products = Products::orderBy('price')->where([['product_name','LIKE' ,"%".$keyword."%"],['seller_id', $user->id]])->get();
+            }else if($sortprice == 'dsc'){
+                $products = Products::orderBy('price', 'DESC')->where([['product_name','LIKE' ,"%".$keyword."%"],['seller_id', $user->id]])->get();
+            }else{
+                $products = Products::where([['product_name','LIKE' ,"%".$keyword."%"],['seller_id', $user->id]])->get();
+            }
         }else{
-            $products = Products::where('product_name','LIKE' ,"%".$keyword."%")->get();
+            if($sortprice == 'asc'){
+                $products = Products::orderBy('price')->where('product_name','LIKE' ,"%".$keyword."%")->get();
+            }else if($sortprice == 'dsc'){
+                $products = Products::orderBy('price', 'DESC')->where('product_name','LIKE' ,"%".$keyword."%")->get();
+            }else{
+                $products = Products::get();
+            }
         }
         return view('content.products.product-list', array(
             'content' => $output,
             'products' => $products,
             'user' => $user,
-            'role' => $role
+            'role' => $role,
+            'users' => $users
         ));
     }
 
@@ -106,6 +128,24 @@ class ProductController extends Controller
         $user = $request->session()->get('user');
         $role = Roles::where('id', $user->roles_id)->first();
         return view('content.products.product-edit', array(
+            'product' => $product,
+            'user' => $user,
+            'role' => $role
+        ));
+    }
+
+        /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function addCartPage(Request $request, $id)
+    {
+        $product = Products::where('id', $id)->first();
+        $user = $request->session()->get('user');
+        $role = Roles::where('id', $user->roles_id)->first();
+        return view('content.products.product-addcart', array(
             'product' => $product,
             'user' => $user,
             'role' => $role
@@ -130,6 +170,27 @@ class ProductController extends Controller
         ));
     }
 
+    public function addCart(Request $request, $id)
+    {
+        $user = $request->session()->get('user');
+        $status = "new";
+        $date = now()->format('Y-m-d');
+        $t = Transactions::create([
+            'buyer_id' => $user->id,
+            'transaction_date' => (new DateTime)->format('Y-m-d'),
+            'status' => $status
+        ]);
+        $t->save();
+        $transID = DB::getPdo('transactions')->lastInsertId();
+        $transdetail = TransactionDetails::create([
+            'transaction_id' => $transID,
+            'product_id' => $id,
+            'quantity' => $request->qty
+        ]);
+        $transdetail->save();
+        return redirect()->route('products');
+    }
+
     /**
      * Update the specified resource in storage.
      *
@@ -148,16 +209,6 @@ class ProductController extends Controller
         ]);
         return redirect()->route('products');
     }
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
     public function filter($cat, Request $request){
         if($request->session()->missing('user')){
             return redirect(Route('login'));
@@ -165,15 +216,21 @@ class ProductController extends Controller
             $output = 'Product List';
             $user = $request->session()->get('user');
             $role = Roles::where('id', $user->roles_id)->first();
+            $users = User::get();
             if($role->id == 1){
+                //$products = Products::where([['seller_id', $user->id],['category_id', $cat]])
+                //            ->leftJoin('transactionDetails', 'transactionDetails.product_id', '=', 'products.id')
+                //            ->select(['products.*', DB::raw('AVG(transactionDetails.rating) as avgrating')])
+                //            ->get();
                 $products = Products::where([['seller_id', $user->id],['category_id', $cat]])->get();
             }else{
-                $products = Products::where('category_id', $cat);
+                $products = Products::where('category_id', $cat)->get();
             }
             return view('content.products.product-list', array(
                 'content' => $output,
                 'products' => $products,
                 'user' => $user,
+                'users' => $users,
                 'role' => $role
             ));
         }

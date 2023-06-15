@@ -66,6 +66,6 @@ class UserController extends Controller
         $user->save();
         $request->session()->put('user', $user);
         Session::flash('message', 'Registration successful');
-        return redirect(Route('dashboard-analytics'))->with('user', $user);
+        return redirect(Route('dashboard-analytics'));
     }
 }

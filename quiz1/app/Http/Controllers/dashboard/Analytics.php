@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Roles;
 use App\Models\User;
+use App\Models\Transactions;
 
 class Analytics extends Controller
 {
@@ -21,6 +22,5 @@ class Analytics extends Controller
         'user' => $user
       ));
     }
-    
   }
 }

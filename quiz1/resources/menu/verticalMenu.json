@@ -16,7 +16,7 @@
       "slug": "product-list"
     },
     {
-      "url": "/orders",
+      "url": "/order",
       "name": "Orders",
       "icon": "menu-icon tf-icons bx bx-collection",
       "slug": "order-list"

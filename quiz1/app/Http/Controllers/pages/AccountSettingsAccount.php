@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Roles;
 use App\Models\User;
+use App\Models\Products;
+use App\Models\Transactions;
 
 class AccountSettingsAccount extends Controller
 {
@@ -40,6 +42,16 @@ class AccountSettingsAccount extends Controller
     public function deactivate(Request $request)
     {
         $user = $request->session()->get('user');
+        if($user->roles_id == 1){
+          $products = Products::where('seller_id', $user->id);
+          $prodID = $products->select('id')->get();
+          $transaction = TransactionDetails::whereIn('product_id', $prodID);
+          $transactionID = $transaction->select('transaction_id')->get();
+          $trans = Transactions::whereIn('id', $transactionID)->get();
+          $trans->delete();
+          $transaction->delete();
+          $products->delete();
+        }
         $user->delete();
         $request->session()->forget('user');
         return redirect()->route('login');

@@ -10,12 +10,14 @@ class Transactions extends Model
     use HasFactory;
     protected $table = 'transactions';
     protected $primaryKey = ['id'];
+    public $incrementing = false;
     public $timestamp = false;
     protected $fillable = [
         'buyer_id',
-        'transaction_date',
+        'transaction_date' => 'datetime',
         'status'
     ];
+    protected $casts = ['transaction_date' => 'datetime'];
     public function buyer()
     {
         return $this->belongsTo(User::class, 'id', 'buyer_id');

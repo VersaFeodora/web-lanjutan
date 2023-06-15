@@ -29,7 +29,7 @@ class Products extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function transactiondetail()
+    public function transactiondetails()
     {
         return $this->hasMany(TransactionDetails::class);
     }
